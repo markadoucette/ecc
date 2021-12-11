@@ -4,6 +4,26 @@
  pip install flask
  pip list
 
+ pip install pandas
+
+  pip install numpy
+
+  pip install requests
+  pip install io
+  pip install json
+
+
+ import requests, io, json
+
+
+ import plotly.graph_objects as go
+ import requests, io, json
+ import random
+ import plotly.express as px
+ import geopandas as gpd
+ import shapely.geometry
+
+
 
  touch app.py
 
@@ -17,3 +37,11 @@ export FLASK_APP=app.py
 export FLASK_ENV=development
 
 flask run
+
+
+export FLASK_APP=run.py
+export FLASK_ENV=development
+
+flask run
+
+pip freeze > requirements.txt
