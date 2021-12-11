@@ -1,0 +1,43 @@
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}Select Cars{% endblock %}
+
+{% block main %}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Select Cars</h1>
+      <hr>
+
+
+      <form action="{{ url_for('select_car',car_1 = car_1,car_2 = car_2)}}" method="POST">
+
+      <div class="form-group">
+        <label>Zip</label>
+        <input type="text" class="form-control" id="zip" name="zip" placeholder="Enter you Zip Code">
+      </div>
+
+      <div class="form-group">
+        <label>Car 1</label>
+        <input type="text" class="form-control" id="car_1" name="car_1" placeholder="Select a Car">
+      </div>
+
+      <div class="form-group">
+        <label>Car 2</label>
+        <input type="text" class="form-control" id="car_2" name="car_2" placeholder="Select a Car">
+      </div>
+
+
+
+      <button type="submit" class="btn btn-primary">Run Comparison</button>
+    </form>
+
+    <!-- <p>Car 1 {{ car_1 }}</p>
+    <p>Car 2 {{ car_2 }}</p> -->
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

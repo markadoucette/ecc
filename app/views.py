@@ -3,6 +3,7 @@ from flask import render_template, request, redirect
 import pandas as pd
 import numpy as np
 import requests, io, json
+from flask import url_for
 import random
 
 import plotly.express as px
@@ -24,20 +25,57 @@ def clean_date(dt):
 
 date = datetime.utcnow()
 
+ev_raw,ev_range,ev_df = ev_data()
+
 
 
 @app.route("/")
 def index():
      return render_template("public/index.html")
 
+
+@app.route("/select_car", methods=["GET", "POST"])
+def select_car():
+
+    if request.method == "POST":
+
+        req = request.form
+        zip = req["zip"]
+        car_1 = req["car_1"]
+        car_2 = req["car_2"]
+        return redirect(url_for('vehicle_selected',zip = zip,car_1 = car_1,car_2 = car_2))
+
+    return render_template("public/select_car.html")
+
+
+@app.route("/vehicle_selected/<car_1>,<car_2>", methods=["POST"])
+def vehicle_selected(car_1,car_2):
+    c_table = get_comparison_table(ev_df,car_1,car_2)
+
+    return render_template("public/vehicle_selected.html",tables=[c_table.to_html()])
+
+
 @app.route("/zip")
 def zip():
-    return render_template("public/zip.html")
+    # Strings
+    my_name = "Mark"
+    langs = ["Python", "JavaScript", "Bash", "Ruby", "C", "Rust"]
+
+    # Get distinct Brands
+    brands = ev_df['Brand'].unique()
+
+    car_1 = 'Mustang Mach-E SR AWD'
+    car_2 = 'ID.4 GTX'
+    c_table = get_comparison_table(ev_df,car_1,car_2)
+
+    return render_template("public/zip.html",my_name=my_name, langs=langs,
+        ev_range=ev_range, brands=brands, tables=[c_table.to_html()])
 
 
 @app.route("/about")
 def about():
     return render_template("public/about.html")
+
 
 users = {
     "mitsuhiko": {

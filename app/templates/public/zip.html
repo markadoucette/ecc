@@ -8,6 +8,43 @@
   <div class="row">
     <div class="col">
       <h1>Zip</h1>
+      <hr>
+
+      <h4>Accessing an objects value</h4>
+      <hr>
+      <p>Hello {{ my_name }}!</p>
+
+      <h4>Looping through an iterable</h4>
+      <hr>
+
+      <strong class="d-block mb-3">Programming languages</strong>
+      <ul>
+        {% for lang in langs %}
+        <li>{{ lang }}</li>
+        {% endfor %}
+      </ul>
+
+      <strong class="d-block mb-3">Comparison</strong>
+      <ul>
+        {% for table in tables %}
+          {{ table|safe }}
+        {% endfor %}
+        </ul>
+      <strong class="d-block mb-3">Brands</strong>
+      <ul>
+        {% for val in brands %}
+        <li>{{ val }}</li>
+        {% endfor %}
+      </ul>
+
+
+      <strong class="d-block mb-3">Ranges</strong>
+      <ul>
+        {% for index,val in ev_range.iteritems() %}
+        <li>{{ index }} - {{ val }}</li>
+        {% endfor %}
+      </ul>
+
     </div>
   </div>
 </div>

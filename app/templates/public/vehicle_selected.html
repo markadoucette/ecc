@@ -1,0 +1,26 @@
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}Comparison{% endblock %}
+
+{% block main %}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Comparison</h1>
+      <hr>
+
+
+      <strong class="d-block mb-3">Comparison</strong>
+      <ul>
+        {% for table in tables %}
+          {{ table|safe }}
+        {% endfor %}
+        </ul>
+
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
