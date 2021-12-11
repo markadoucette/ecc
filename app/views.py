@@ -1,9 +1,5 @@
 from app import app
 from flask import render_template, request, redirect
-
-
-from datetime import datetime
-
 import pandas as pd
 import numpy as np
 import requests, io, json
@@ -12,6 +8,13 @@ import random
 import plotly.express as px
 import geopandas as gpd
 import shapely.geometry
+
+from ev import *
+from radius_map import *
+
+from datetime import datetime
+
+
 
 
 
@@ -26,6 +29,10 @@ date = datetime.utcnow()
 @app.route("/")
 def index():
      return render_template("public/index.html")
+
+@app.route("/zip")
+def zip():
+    return render_template("public/zip.html")
 
 
 @app.route("/about")
