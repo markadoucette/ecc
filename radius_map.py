@@ -6,12 +6,14 @@ import random
 import plotly.express as px
 import geopandas as gpd
 import shapely.geometry
+import plotly.io as pio
+import os
 
 
 ## Get Center point Data
 def get_poi(zip,us_zip_lat_long_data):
     zip,lat,lng = us_zip_lat_long_data.loc[us_zip_lat_long_data['ZIP']== zip].values[0]
-    
+
     poi = {"Latitude": lat, "Longitude": lng}
     return poi
 
@@ -43,9 +45,9 @@ def get_zoom(distiance_1,distiance_2):
         return 6
     elif max(distiance_1,distiance_2) >100:
         return 6.25
-    else: 
+    else:
         return 6.5
-    
+
 
 ## Create data for radius map
 #  https://stackoverflow.com/questions/68946831/draw-a-polygon-around-point-in-scattermapbox-using-python
@@ -129,4 +131,6 @@ def radius_map(zip,us_zip_lat_long_data,range_1,range_2):
         },
         margin={"l": 0, "r": 0, "t": 0, "b": 0},
     )
-    fig.show()
+    # fig.show()
+    # pio.show(fig, renderer='iframe')
+    fig.write_html("./app/static/iframe_figures/map_radius.html")

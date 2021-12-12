@@ -2,14 +2,15 @@ import pandas as pd
 import numpy as np
 
 # Electric Car Data Set
-def ev_data():
+def ev_data(ev_raw):
 
     # Read in EV data
-    ev_raw = pd.read_csv('./app/data_files/ev_car_final.csv',index_col=0)
+
+    # ev_raw = pd.read_csv('./app/data_files/ev_car_final.csv',index_col=0)
 
     # Set model name to index
     ev_raw.set_index('Model', drop=True, inplace=True)
-    
+
     # Create series for range
     ev_range = ev_raw["range_raw"]
     # Make copy for display purposes
@@ -34,4 +35,4 @@ def get_range(ev_range,car_id):
 def get_comparison_table(ev_df,car_1,car_2):
     c_table = ev_df.loc[[car_1,car_2]].transpose()
 #     f_table['diff'] = (f_table[car_1]-f_table[car_2])
-    return c_table 
+    return c_table

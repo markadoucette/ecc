@@ -26,7 +26,8 @@
  import geopandas as gpd
  import shapely.geometry
 
-
+pip install rtree
+pip install pygeos
 
  touch app.py
 
@@ -47,4 +48,12 @@ export FLASK_ENV=development
 
 flask run
 
+
 pip freeze > requirements.txt
+
+
+
+
+
+
+iframe_figures/figure_0.html
