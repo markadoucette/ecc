@@ -44,6 +44,7 @@ us_zip_lat_long_data = pd.read_csv('./app/data_files/us_zip_code_lat_long.csv',
 @app.route("/")
 def main():
     carbrands = ev_df['Brand'].unique()
+    zip_codes = us_zip_lat_long_data['ZIP'].unique()
     return render_template('public/index.html', carbrands=carbrands)
 
 
