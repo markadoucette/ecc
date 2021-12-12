@@ -58,20 +58,28 @@ def select_car():
 
     if request.method == "POST":
 
-        req = request.form
-        zip = req["zip"]
-        car_1 = req["car_1"]
-        car_2 = req["car_2"]
-        # zip = '78210'
-        # car_1 = 'Mustang Mach-E SR AWD'
-        # car_2 = 'ID.4 GTX'
-        return redirect(url_for('vehicle_selected',zip = zip,car_1 = car_1,car_2 = car_2))
+        # req = request.form
+        # zip = req["zip"]
+        # car_brand_1 = req["car_brand_1"]
+        # car_1 = req["car_1"]
+        # car_brand_2 = req["car_brand_2"]
+        # car_2 = req["car_2"]
+
+        zip = '78210'
+        car_brand_1 = 'Ford'
+        car_1 = 'Mustang Mach-E SR AWD'
+        car_brand_2 = 'Tesla'
+        car_2 = 'Cybertruck Tri Motor'
+
+
+        return redirect(url_for('vehicle_selected',zip = zip,car_brand_1 = car_brand_1, car_1 = car_1,
+        car_brand_2 = car_brand_2, car_2 = car_2))
 
     return render_template("public/select_car.html")
 
 
-@app.route("/vehicle_selected/<car_1>,<car_2>,<zip>", methods=["GET", "POST"])
-def vehicle_selected(car_1,car_2,zip):
+@app.route("/vehicle_selected/,<car_brand_1>,<car_1>,<car_brand_2>,<car_2>,<zip>", methods=["GET", "POST"])
+def vehicle_selected(car_brand_1,car_1,car_brand_2,car_2,zip):
     zip = zip
     c_table = get_comparison_table(ev_df,car_1,car_2)
     range_1 = get_range(ev_range,car_1)
@@ -86,7 +94,8 @@ def vehicle_selected(car_1,car_2,zip):
     map_loc = radius_map(zip,us_zip_lat_long_data,range_1,range_2)
 
     return render_template("public/vehicle_selected.html",tables=[c_table.to_html()],
-                    zip = zip,car_1 = car_1,car_2 = car_2,range_1 = range_1, range_2 = range_2,
+                    zip = zip,car_brand_1 = car_brand_1, car_1 = car_1,
+                    car_brand_2 = car_brand_2, car_2 = car_2,range_1 = range_1, range_2 = range_2,
                     poi = poi, zoom = zoom)
 
 
