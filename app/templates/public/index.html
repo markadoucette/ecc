@@ -11,15 +11,8 @@
       <hr>
       <div class="form-group">
         <label>Zip</label>
-        <!-- <input type="text" class="form-control" id="zip" name="zip" placeholder="Enter you Zip Code"> -->
-        <select name="zip" data-live-search="true" id="zip" class="form-control" title="Enter your Zip Code">
-        {% for zip_codes in zip_codes %}
-        <option value="{{zip_codes}}">{{zip_codes}}</option>
-        {% endfor %}
-        </select>
+        <input type="text" class="form-control" id="zip" name="zip" placeholder="Enter you Zip Code">
       </div>
-
-
       <h1 align="center">Select Car 1</h1>
 
         <div class="form-group">
@@ -34,8 +27,6 @@
           <label>Select Model</label>
           <select name="car_1" data-live-search="true" id="car_models_1" class="form-control" title="Select Car Model"> </select>
       </div>
-
-
 
       <h1 align="center">Select Car 2</h1>
       <div class="form-group">
@@ -64,39 +55,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#zip").selectpicker();
-
-        $("#car_models_1").selectpicker();
-
-        function load_data(type, category_id) {
-            $.ajax({
-                url: "/carbrand",
-                method: "POST",
-                data: { type: type, category_id: category_id },
-                dataType: "json",
-                success: function (data) { //alert(category_id)
-                    var html = "";
-                    for (var count = 0; count < data.length; count++) {
-                        html += '<option value="' + data[count].id + '">' + data[count].name + "</option>";
-                    }
-                    if (type == "carData") {
-                        $("#car_brand_1").html(html);
-                        $("#car_brand_1").selectpicker("refresh");
-                    } else {
-                        $("#car_models_1").html(html);
-                        $("#car_models_1").selectpicker("refresh");
-                    }
-                },
-            });
-        }
-        $(document).on("change", "#car_brand_1", function () {
-            var category_id = $("#car_brand_1").val();
-            load_data("carModeldata", category_id);
-        });
-    });
-</script>
 <script>
     $(document).ready(function () {
         $("#car_brand_1").selectpicker();
