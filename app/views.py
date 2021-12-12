@@ -1,10 +1,12 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import Flask, render_template, request, jsonify, redirect
 import pandas as pd
 import numpy as np
 import requests, io, json
 from flask import url_for
 import random
+from flask_wtf import FlaskForm
+from wtforms import SelectField
 
 import plotly.express as px
 import geopandas as gpd
@@ -16,7 +18,15 @@ from radius_map import *
 from datetime import datetime
 
 
+#
+# class City(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     state = db.Column(db.String(2))
+#     name = db.Column(db.String(50))
 
+class Form(FlaskForm):
+    state = SelectField('state', choices=[('CA', 'California'), ('NV', 'Nevada')])
+    # city = SelectField('city', choices=[])
 
 
 @app.template_filter("clean_date")
@@ -27,11 +37,47 @@ date = datetime.utcnow()
 
 ev_raw,ev_range,ev_df = ev_data()
 
+car_1 = 'Mustang Mach-E SR AWD'
+car_2 = 'ID.4 GTX'
 
+# @app.route("/")
+# def index():
+#      return render_template("public/index.html")
+#
+
+data = (
+    ("0000","Aiways"),
+    ("1000","Audi"),
+    ("2000","BMW"),
+    ("3000","Byton")
+)
 
 @app.route("/")
-def index():
-     return render_template("public/index.html")
+def main():
+    carbrands = ev_df['Brand'].unique()
+    return render_template('public/index.html', carbrands=carbrands)
+
+
+@app.route("/carbrand",methods=["POST","GET"])
+def carbrand():
+
+    if request.method == 'POST':
+        category_id = request.form['category_id']
+        print(category_id)
+        carmodel = ev_df.index[(ev_df['Brand']== category_id)].unique()
+        OutputArray = []
+        for carmodel in carmodel:
+            outputObj = {
+                'id': carmodel,
+                'name': carmodel}
+            OutputArray.append(outputObj)
+    return jsonify(OutputArray)
+
+
+
+
+
+
 
 
 @app.route("/select_car", methods=["GET", "POST"])
@@ -43,16 +89,21 @@ def select_car():
         zip = req["zip"]
         car_1 = req["car_1"]
         car_2 = req["car_2"]
+        # car_2 = 'One'
         return redirect(url_for('vehicle_selected',zip = zip,car_1 = car_1,car_2 = car_2))
 
     return render_template("public/select_car.html")
 
 
-@app.route("/vehicle_selected/<car_1>,<car_2>", methods=["POST"])
+@app.route("/vehicle_selected/<car_1>,<car_2>", methods=["GET", "POST"])
 def vehicle_selected(car_1,car_2):
     c_table = get_comparison_table(ev_df,car_1,car_2)
 
     return render_template("public/vehicle_selected.html",tables=[c_table.to_html()])
+
+
+
+
 
 
 @app.route("/zip")

@@ -34,4 +34,4 @@ def get_range(ev_range,car_id):
 def get_comparison_table(ev_df,car_1,car_2):
     c_table = ev_df.loc[[car_1,car_2]].transpose()
 #     f_table['diff'] = (f_table[car_1]-f_table[car_2])
-    return c_table 
+    return c_table

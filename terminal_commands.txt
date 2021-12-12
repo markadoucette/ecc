@@ -13,6 +13,9 @@
   pip install json
 
 
+  pip install flask_wtf
+  pip install wtforms
+
  import requests, io, json
 
 
