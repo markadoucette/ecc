@@ -5,39 +5,41 @@
 {% block main %}
 
 <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>Map</h1>
+        <!-- <hr> -->
+        <!-- {{ radius_map | safe}} -->
+        <iframe id="frame1" scrolling="no"  width="100%"  height="545px" frameborder="0"
+            src="{{ url_for('static', filename='/iframe_figures/map_radius.html') }}"></iframe>
+      </div>
+    </div>
   <div class="row">
     <div class="col">
-      <h1>Comparison</h1>
-      <hr>
-      <strong class="d-block mb-3">Comparison</strong>
-      <ul>
-        {% for table in tables %}
-          {{ table|safe }}
-        {% endfor %}
-        <b>* values are etimates</b>
-        </ul>
+      <h1>{{ car_1 }}</h1>
+      <p>Car 1 {{ range_1 }}</p>
+      <p>Car 2 {{ range_2 }}</p>
+      <p>Zip {{ zip }}</p>
+      <p>Lat Long {{ poi }}</p>
+      <p>Zoom {{ zoom }}</p>
     </div>
-<div class="col">
-    <h1>Car Range</h1>
-    <hr>
+  <div class="col">
+    <h1>Comparison</h1>
+    <strong class="d-block mb-3">Comparison</strong>
+    {% for table in tables %}
+    {{ table|safe }}
+    {% endfor %}
+    <b>* values are etimates</b>
+  </div>
+  <div class="col">
+    <h1>{{ car_2 }}</h1>
     <p>Car 1 {{ range_1 }}</p>
     <p>Car 2 {{ range_2 }}</p>
     <p>Zip {{ zip }}</p>
     <p>Lat Long {{ poi }}</p>
     <p>Zoom {{ zoom }}</p>
-
     </div>
   </div>
 </div>
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <h1>Map</h1>
-      <hr>
-      <!-- {{ radius_map | safe}} -->
-      <iframe id="frame1" scrolling="no"  width="100%"  height="545px" frameborder="0"
-          src="{{ url_for('static', filename='/iframe_figures/map_radius.html') }}"></iframe>
-    </div>
-  </div>
-  </div>
+
 {% endblock %}

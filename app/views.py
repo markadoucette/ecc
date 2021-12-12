@@ -19,13 +19,7 @@ from datetime import datetime
 from ev import *
 from radius_map import *
 
-# @app.template_filter("clean_date")
-# def clean_date(dt):
-#     return dt.strftime("%d %b %Y")
-#
-# date = datetime.utcnow()
-
-
+### Read in data
 ev_raw = pd.read_csv('./app/data_files/ev_car_final.csv',index_col=0)
 
 ev_raw,ev_range,ev_df = ev_data(ev_raw)
@@ -35,10 +29,6 @@ us_zip_lat_long_data = pd.read_csv('./app/data_files/us_zip_code_lat_long.csv',
                 dtype={'ZIP': str,'LAT': float,'LNG': float})
 
 
-# @app.route("/")
-# def index():
-#      return render_template("public/index.html")
-#
 
 
 @app.route("/")
@@ -61,12 +51,6 @@ def carbrand():
                 'name': carmodel}
             OutputArray.append(outputObj)
     return jsonify(OutputArray)
-
-
-
-
-
-
 
 
 @app.route("/select_car", methods=["GET", "POST"])
@@ -93,8 +77,8 @@ def vehicle_selected(car_1,car_2,zip):
     range_1 = get_range(ev_range,car_1)
     range_2 = get_range(ev_range,car_2)
 
-    # poi = get_poi(zip,us_zip_lat_long_data)
-    # zoom = get_zoom(range_1,range_2)
+    poi = get_poi(zip,us_zip_lat_long_data)
+    zoom = get_zoom(range_1,range_2)
     rel_path = "static/iframe_figures"
     r_string = "figure_9.html"
     path = os.path.join(rel_path, r_string)
@@ -103,9 +87,10 @@ def vehicle_selected(car_1,car_2,zip):
 
     return render_template("public/vehicle_selected.html",tables=[c_table.to_html()],
                     zip = zip,car_1 = car_1,car_2 = car_2,range_1 = range_1, range_2 = range_2,
-                    map_loc = map_loc, href=path[4:])
+                    poi = poi, zoom = zoom)
 
-# poi = poi, zoom = zoom
+
+# map_loc = map_loc, href=path[4:]
 
 
 
