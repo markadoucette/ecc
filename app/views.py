@@ -18,17 +18,6 @@ from radius_map import *
 from datetime import datetime
 
 
-#
-# class City(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     state = db.Column(db.String(2))
-#     name = db.Column(db.String(50))
-
-class Form(FlaskForm):
-    state = SelectField('state', choices=[('CA', 'California'), ('NV', 'Nevada')])
-    # city = SelectField('city', choices=[])
-
-
 @app.template_filter("clean_date")
 def clean_date(dt):
     return dt.strftime("%d %b %Y")
@@ -37,20 +26,16 @@ date = datetime.utcnow()
 
 ev_raw,ev_range,ev_df = ev_data()
 
-car_1 = 'Mustang Mach-E SR AWD'
-car_2 = 'ID.4 GTX'
+# US Zip Code and Lat / Long Dataset
+us_zip_lat_long_data = pd.read_csv('./app/data_files/us_zip_code_lat_long.csv',
+                dtype={'ZIP': str,'LAT': float,'LNG': float})
+
 
 # @app.route("/")
 # def index():
 #      return render_template("public/index.html")
 #
 
-data = (
-    ("0000","Aiways"),
-    ("1000","Audi"),
-    ("2000","BMW"),
-    ("3000","Byton")
-)
 
 @app.route("/")
 def main():
@@ -86,20 +71,31 @@ def select_car():
     if request.method == "POST":
 
         req = request.form
-        zip = req["zip"]
-        car_1 = req["car_1"]
-        car_2 = req["car_2"]
-        # car_2 = 'One'
+        # zip = req["zip"]
+        # car_1 = req["car_1"]
+        # car_2 = req["car_2"]
+        zip = '78210'
+        car_1 = 'Mustang Mach-E SR AWD'
+        car_2 = 'ID.4 GTX'
         return redirect(url_for('vehicle_selected',zip = zip,car_1 = car_1,car_2 = car_2))
 
     return render_template("public/select_car.html")
 
 
-@app.route("/vehicle_selected/<car_1>,<car_2>", methods=["GET", "POST"])
-def vehicle_selected(car_1,car_2):
+@app.route("/vehicle_selected/<car_1>,<car_2>,<zip>", methods=["GET", "POST"])
+def vehicle_selected(car_1,car_2,zip):
+    zip = zip
     c_table = get_comparison_table(ev_df,car_1,car_2)
+    range_1 = get_range(ev_range,car_1)
+    range_2 = get_range(ev_range,car_2)
 
-    return render_template("public/vehicle_selected.html",tables=[c_table.to_html()])
+    poi = get_poi(zip,us_zip_lat_long_data)
+    zoom = get_zoom(range_1,range_2)
+    # radius_map(zip,us_zip_lat_long_data,range_1,range_2)
+
+    return render_template("public/vehicle_selected.html",tables=[c_table.to_html()],
+                    zip = zip,car_1 = car_1,car_2 = car_2,range_1 = range_1, range_2 = range_2,
+                    poi = poi, zoom = zoom)
 
 
 

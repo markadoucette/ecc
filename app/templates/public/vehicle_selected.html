@@ -9,18 +9,32 @@
     <div class="col">
       <h1>Comparison</h1>
       <hr>
-
-
       <strong class="d-block mb-3">Comparison</strong>
       <ul>
         {% for table in tables %}
           {{ table|safe }}
         {% endfor %}
+        <b>* values are etimates</b>
         </ul>
-
+    </div>
+<div class="col">
+    <h1>Car Range</h1>
+    <hr>
+    <p>Car 1 {{ range_1 }}</p>
+    <p>Car 2 {{ range_2 }}</p>
+    <p>Zip {{ zip }}</p>
+    <p>Lat Long {{ poi }}</p>
+    <p>Zoom {{ zoom }}</p>
 
     </div>
   </div>
 </div>
-
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Map</h1>
+      <hr>
+    </div>
+  </div>
+  </div>
 {% endblock %}
