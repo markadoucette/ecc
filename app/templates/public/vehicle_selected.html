@@ -15,33 +15,30 @@
       </div>
     </div>
   <div class="row">
-    <div class="col">
-      <h2>{{ car_brand_1 }}</h2>
-      <h2>{{ car_1 }}</h2>
-      <p>Car 1 {{ range_1 }}</p>
-      <p>Car 2 {{ range_2 }}</p>
-      <p>Zip {{ zip }}</p>
-      <p>Lat Long {{ poi }}</p>
-      <p>Zoom {{ zoom }}</p>
+    <div class="col" align="center" style="border:5px solid blue;">
+      <h2 class="blue-text">{{ car_brand_1 }}</h2>
+      <h2 class="blue-text">{{ car_1 }}</h2>
+      {% for i in similar_cars_1 %}
+      {{ i|safe }}
+      {% endfor %}
     </div>
-  <div class="col">
+  <div class="col" align="center">
     <h1>Comparison</h1>
     <strong class="d-block mb-3">Comparison</strong>
-    {% for table in tables %}
-    {{ table|safe }}
+    {% for i in c_table %}
+    {{ i|safe }}
     {% endfor %}
     <b>* values are etimates</b>
   </div>
-  <div class="col">
-    <h2>{{ car_brand_2 }}</h2>
-    <h2>{{ car_2 }}</h2>
-    <p>Car 1 {{ range_1 }}</p>
-    <p>Car 2 {{ range_2 }}</p>
-    <p>Zip {{ zip }}</p>
-    <p>Lat Long {{ poi }}</p>
-    <p>Zoom {{ zoom }}</p>
+  <div class="col" align="center" style="border:5px solid red;">
+    <h2 class="red-text">{{ car_brand_2 }}</h2>
+    <h2 class="red-text">{{ car_2 }}</h2>
+    {% for i in similar_cars_2 %}
+    {{ i|safe }}
+    {% endfor %}
     </div>
   </div>
+
 </div>
 
 {% endblock %}

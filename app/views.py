@@ -24,6 +24,8 @@ ev_raw = pd.read_csv('./app/data_files/ev_car_final.csv',index_col=0)
 
 ev_raw,ev_range,ev_df = ev_data(ev_raw)
 
+# bring in ev car correlation
+corr_final = get_corr(ev_raw)
 # US Zip Code and Lat / Long Dataset
 us_zip_lat_long_data = pd.read_csv('./app/data_files/us_zip_code_lat_long.csv',
                 dtype={'ZIP': str,'LAT': float,'LNG': float})
@@ -85,6 +87,9 @@ def vehicle_selected(car_brand_1,car_1,car_brand_2,car_2,zip):
     range_1 = get_range(ev_range,car_1)
     range_2 = get_range(ev_range,car_2)
 
+    similar_cars_1 = get_similar(corr_final,car_1)
+    similar_cars_2 = get_similar(corr_final,car_2)
+
     poi = get_poi(zip,us_zip_lat_long_data)
     zoom = get_zoom(range_1,range_2)
     rel_path = "static/iframe_figures"
@@ -93,14 +98,23 @@ def vehicle_selected(car_brand_1,car_1,car_brand_2,car_2,zip):
 
     map_loc = radius_map(zip,us_zip_lat_long_data,range_1,range_2)
 
-    return render_template("public/vehicle_selected.html",tables=[c_table.to_html()],
+    return render_template("public/vehicle_selected.html",c_table=[c_table.to_html()],
+                    similar_cars_1=[similar_cars_1.to_html(index=False)],
+                    similar_cars_2=[similar_cars_2.to_html(index=False)],
                     zip = zip,car_brand_1 = car_brand_1, car_1 = car_1,
                     car_brand_2 = car_brand_2, car_2 = car_2,range_1 = range_1, range_2 = range_2,
                     poi = poi, zoom = zoom)
 
 
-# map_loc = map_loc, href=path[4:]
+@app.route("/data")
+def data():
+    ev_df
+    return render_template("public/data.html",ev_df=[ev_df.to_html()] )
 
+@app.route("/about")
+def about():
+
+    return render_template("public/about.html")
 
 
 
@@ -121,9 +135,6 @@ def zip():
         ev_range=ev_range, brands=brands, tables=[c_table.to_html()])
 
 
-@app.route("/about")
-def about():
-    return render_template("public/about.html")
 
 
 users = {

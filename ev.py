@@ -36,3 +36,45 @@ def get_comparison_table(ev_df,car_1,car_2):
     c_table = ev_df.loc[[car_1,car_2]].transpose()
 #     f_table['diff'] = (f_table[car_1]-f_table[car_2])
     return c_table
+
+
+def get_corr(ev_raw):
+    # Subset columns to one needed for correlation recomendation system
+    ev_df = ev_raw.iloc[:,[1,3,4,5,15,16,17,18]]
+
+    # Convert cagetorical columns into numerical and transpose
+    ev_df = pd.get_dummies(ev_df,drop_first = True).T
+
+    # Get correlations of vehicles with other vehicles 
+    corr = ev_df.corr()
+
+    # Set the diagonal values to nan
+    np.fill_diagonal(corr.values, np.nan)
+
+    # Get top 10 vehicles similar to  root vehicle
+    top10 = np.argsort(-corr.values, axis=1)[:, :10]
+
+    # Get correlation as numpy array for capturing values
+    corr_values = corr.to_numpy()
+
+    # Empty list
+    ev_top = []
+
+    # Loop through the top 10 correlations and build data frame
+
+    for i in  range(len(top10)):
+            for j in range(len(top10[i])):
+
+                model =  corr.columns[i]
+                comparison_model =corr.columns[top10[i][j]]
+                correlation = corr_values[i][top10[i][j]]
+
+                ev_top.append([model,comparison_model,correlation])
+
+    corr_final = pd.DataFrame(ev_top, columns=["Model", "Comparison Model","Correlation"])
+    
+    return corr_final
+    
+def get_similar(corr_final,car_id):
+    similar_df = corr_final.loc[(corr_final['Model']== car_id)][["Comparison Model","Correlation"]]
+    return similar_df

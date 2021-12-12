@@ -21,3 +21,7 @@ table.dataframe, .dataframe th, .dataframe td {
 tr:nth-child(odd)		{ background-color:#A6A8B1; }
 tr:nth-child(even)	{ background-color:#91949F; }
 tr:hover            { background-color: #D7D8DE;}
+
+
+  h2.red-text {color: red;}
+  h2.blue-text {color: blue;}
