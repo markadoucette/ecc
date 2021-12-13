@@ -38,9 +38,18 @@ def get_comparison_table(ev_df,car_1,car_2):
     return c_table
 
 
+
+# - Dario Radečić
+# - Oct 5 2019
+# - Recommender System in Python — Part 2 (Content-Based System)
+# - Type Python
+# - Availability https://towardsdatascience.com/recommender-system-in-python-part-2-content-based-system-693a0e4bb306
+
+
 def get_corr(ev_raw):
     # Subset columns to one needed for correlation recomendation system
     ev_df = ev_raw.iloc[:,[1,3,4,5,15,16,17,18]]
+    ev_brand = ev_raw.iloc[:,:1]
 
     # Convert cagetorical columns into numerical and transpose
     ev_df = pd.get_dummies(ev_df,drop_first = True).T
@@ -65,16 +74,20 @@ def get_corr(ev_raw):
     for i in  range(len(top10)):
             for j in range(len(top10[i])):
 
-                model =  corr.columns[i]
-                comparison_model =corr.columns[top10[i][j]]
+                root_model =  corr.columns[i]
+                model =corr.columns[top10[i][j]]
                 correlation = corr_values[i][top10[i][j]]
 
-                ev_top.append([model,comparison_model,correlation])
+                ev_top.append([root_model,model,correlation])
 
-    corr_final = pd.DataFrame(ev_top, columns=["Model", "Comparison Model","Correlation"])
+    corr_final = pd.DataFrame(ev_top, columns=["Root Model", "Model","Correlation"])
+    
+    corr_final = corr_final.merge(ev_brand, how="left", left_on="Model", right_on="Model")
+    corr_final = corr_final[['Root Model', 'Brand','Model', 'Correlation']]
+    
     
     return corr_final
     
 def get_similar(corr_final,car_id):
-    similar_df = corr_final.loc[(corr_final['Model']== car_id)][["Comparison Model","Correlation"]]
+    similar_df = corr_final.loc[(corr_final['Root Model']== car_id)][["Brand", "Model","Correlation"]]
     return similar_df

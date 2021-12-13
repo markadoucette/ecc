@@ -49,8 +49,12 @@ def get_zoom(distiance_1,distiance_2):
         return 6.5
 
 
-## Create data for radius map
-#  https://stackoverflow.com/questions/68946831/draw-a-polygon-around-point-in-scattermapbox-using-python
+# - Rob Raymond
+# - Aug 29th 2021
+# - Draw a polygon around point in scattermapbox using python
+# - Type Python
+# - Availability https://stackoverflow.com/questions/68946831/draw-a-polygon-around-point-in-scattermapbox-using-python
+
 def poi_poly(
     df,
     radius=10 ** 5,
@@ -116,14 +120,14 @@ def radius_map(zip,us_zip_lat_long_data,range_1,range_2):
                     "source": json.loads(poi_poly(None, poi=poi, radius=1609.34 * range_1).to_json()),
                     "below": "traces",
                     "type": "line",
-                    "color": "blue",
+                    "color": "teal",
                     "line": {"width": 1.5},
                 },
                 {
                     "source": json.loads(poi_poly(None, poi=poi, radius=1609.34 * range_2).to_json()),
                     "below": "traces",
                     "type": "line",
-                    "color": "red",
+                    "color": "coral",
                     "line": {"width": 1.5},
                 }
             ],

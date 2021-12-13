@@ -2,11 +2,11 @@
 
 body            { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
                   background-color: #3C3F49;}
-b, p, a, h1, h2       { color: #D7D8DE; }
+b, li,  p, a, h1, h2       { color: #D7D8DE; }
 h1, h2          { margin: 5; }
 h1              { border-bottom: 2px solid #eee; }
 h2              { font-size: 1.8em; }
-p              { font-size: 1.4em; }
+p, li              { font-size: 1.4em; }
 
 table.dataframe, .dataframe th, .dataframe td {
   border: none;
@@ -23,5 +23,5 @@ tr:nth-child(even)	{ background-color:#91949F; }
 tr:hover            { background-color: #D7D8DE;}
 
 
-  h2.red-text {color: red;}
-  h2.blue-text {color: blue;}
+  h2.coral-text {color: coral;}
+  h2.teal-text {color: teal;}
